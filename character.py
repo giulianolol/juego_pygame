@@ -10,7 +10,7 @@ class Character():
         #Here is stored the time (in miliseconds) since pygame was started
         self.update_time = pygame.time.get_ticks()
         self.character_image = animations[self.frame_index]
-        self.shape = pygame.Rect(0,0,consts.CHARACTER_WIDTH, consts.CHARACTER_HEIGHT)
+        self.shape = self.character_image.get_rect()
         self.shape.center = (x,y)
     
     def update(self):

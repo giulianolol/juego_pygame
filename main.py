@@ -1,6 +1,6 @@
 import pygame, pictures, Clases, consts
-from Clases import character
-
+from character import Character
+from weapon import Weapon
 
 pygame.init()
 
@@ -13,29 +13,38 @@ def scale_image(image, scale):
     
     return new_image
 
+#IMPORT IMAGES
+
 animations = []
 for i in range(11):
     img = pygame.image.load(f"Fotos\Personajes\Personaje_principal\walk{i}.png")
     img = scale_image(img, consts.CHARACTER_SCALE)
-    animations.append(img)
-    
+    animations.append(img)   
+
+#PLAYER IMG     
 player_image = pygame.image.load("Fotos\Personajes\Personaje_principal\walk1.png")
 player_image = scale_image(player_image, consts.CHARACTER_SCALE)
 
-player = character.Character(50,50,animations)
+#GUN IMG
+gun_img = pygame.image.load(f"Fotos\Guns\gun.png")
+gun_img = scale_image(gun_img, consts.WEAPON_SCALE)
 
+#HERE WE CREATE A PLAYER WITH THE CHARACTER CLASS
+player = Character(50,50,animations)
+
+#HERE WE CREATE A GUN WITH THE WEAPON CLASS
+weapon = Weapon(gun_img)
 
 #SCREEN
 screen = pygame.display.set_mode((consts.SCREEN_WIDTH,consts.SCREEN_HEIGHT))
 
 #MOVEMENT VARAIBLES
-
 movement_up = False
 movement_down = False
 movement_left = False
 movement_right = False
 
-#Framerate controller
+#FRAMERATE CONTROLLER
 clock = pygame.time.Clock()
 
 pygame.draw.line(screen,(0,0,0),(20,645),(1600,645),6)
@@ -60,9 +69,17 @@ while start_flag == True:
     
     player.movement(mov_x, mov_y)
     
+    #UPDATE THE PLAY STATUS
     player.update()
-        
+
+    #UPDATE THE WEAPON STATUS
+    weapon.update(player)
+    
+    #DRAW THE PLAYER
     player.draw(screen)
+    
+    #DRAW THE WEAPON
+    weapon.draw(screen)
     
     for event in pygame.event.get():
             
